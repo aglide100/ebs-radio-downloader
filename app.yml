@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+    ebs-scrap:
+        image: ${IMAGEURL}
+        networks:
+            - docker-network
+        volumes:
+            - "/volume4/ebs/:/opt/bin/scrap/outputs:rw"
+        # command: "/opt/bin/scrap/main --wanted="
+
+networks:
+    docker-network:
+        external: true
