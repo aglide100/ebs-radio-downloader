@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/aglide100/ebs-radio-downloader/pkg/cli"
 	"github.com/aglide100/ebs-radio-downloader/pkg/dir"
@@ -16,7 +17,37 @@ import (
 	"go.uber.org/zap"
 )
 
-func DownloadTSFile(url, fileName string) error {
+func DownloadChunk(m3u8URL, baseURL string, isChanged bool, current *model.Program) error {
+	body, err := CreateHttpReq(m3u8URL)
+	if err != nil {
+		return err
+	}
+	
+	list := getTsList(baseURL, string(body))
+	
+	if isChanged {
+		err = downloadTSFile(list[len(list)-1].Url, filepath.Join(current.Path, list[len(list)-1].Name))
+		if err != nil {
+			logger.Error("Can't download ts file")
+			return err
+		}
+	} else {
+		for _, val := range list {
+			err = downloadTSFile(val.Url, filepath.Join(current.Path, val.Name))
+			if err != nil {
+				logger.Error("Can't download ts file")
+				return err
+			}
+			if (val.Duration > 10) {
+				time.Sleep(time.Second * time.Duration((val.Duration - 10)))
+			}
+		}
+	}
+
+	return nil
+}
+
+func downloadTSFile(url, fileName string) error {
 	if _, err := os.Stat(fileName); !os.IsNotExist(err) {
 		// fmt.Println("File is exist:", fileName)
 		return nil
@@ -43,7 +74,7 @@ func DownloadTSFile(url, fileName string) error {
 	return nil
 }
 
-func GetTsList(host, body string) (tsList []model.TsInfo) {
+func getTsList(host, body string) (tsList []model.TsInfo) {
 	lines := strings.Split(body, "\n")
 	var ts model.TsInfo
 	var duration float64
@@ -113,6 +144,7 @@ func CombinedTS(path, title string) (string, string, error) {
 		logger.Error("can't open path", zap.Any("path", basePath))
 		return "","", err
 	}
+	
 	for _, file := range files {
 		if !file.IsDir() && strings.HasSuffix(file.Name(), ".ts") && file.Name() != dir.AddEscapePath(newTitle)+".ts" {
 			err := os.Remove(strings.ReplaceAll(basePath, "\\", "") + file.Name())

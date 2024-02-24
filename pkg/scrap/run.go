@@ -44,7 +44,13 @@ func Run(wanted, exclusive []string) error {
 		return err
 	}
 
+	isExist := false
+
 	prev := current
+	if dir.SubDirIsExist(current.Path, current.SubTitle) {
+		logger.Info("subtitle is exist", zap.Any("current", current))
+		isExist = true
+	}
 
 	idx := 0
 	defer ticker.Stop()
@@ -53,8 +59,8 @@ func Run(wanted, exclusive []string) error {
 
 		idx++
 		isChange := false
+
 		if (remain <= time.Second * 30) {
-			// logger.Info("remain", zap.Any("remain", remain), zap.Any("prev", prev.EndAt))
 			idx = 6
 		}
 		
@@ -69,14 +75,20 @@ func Run(wanted, exclusive []string) error {
 			if dir.SubDirIsExist(current.Path, current.SubTitle) {
 				prev = current
 				logger.Info("subtitle is exist", zap.Any("current", current))
-				continue
+				isExist = true
+			} else {
+				isExist = false
 			}
 
 			if prev.Title != current.Title || prev.SubTitle != current.SubTitle {
 				isChange = true
+				if dir.SubDirIsExist(prev.Path, prev.SubTitle) {
+					logger.Info("already exist", zap.Any("prev", prev))
+					prev = current 
+					continue
+				}
+
 				if (prev.Title != "" && !Contains(exclusive, prev.Title)) {
-					logger.Info("prev", zap.Any("prev", prev))
-			
 					go func(target *model.Program) {
 						logger.Info("prev", zap.Any("target", target))
 						path, filename, err := CombinedTS(target.Path, target.SubTitle)
@@ -101,11 +113,8 @@ func Run(wanted, exclusive []string) error {
 				current.EndAt = time.Date(now.Year(), now.Month(), now.Day(), 4, 55, 0, 0, now.Location())
 				current.Title = " "
 				logger.Info("current broadcast is done, until wait ", zap.Any("time", now))
-			}
-
-			// logger.Info("program", zap.Any("current", current))		
+			}	
 		}
-
 		
 		if (Contains(exclusive, current.Title)) {
 			waitUntilDone(current)
@@ -117,31 +126,13 @@ func Run(wanted, exclusive []string) error {
 			continue
 		}
 
-		body, err := CreateHttpReq(m3u8URL)
-		if err != nil {
-			return err
-		}
-		
-		list := GetTsList(baseURL, string(body))
-		
-		if isChange {
-			err = DownloadTSFile(list[len(list)-1].Url, filepath.Join(current.Path, list[len(list)-1].Name))
+		if (!isExist) {
+			err = DownloadChunk(m3u8URL, baseURL, isChange, current)
 			if err != nil {
-				logger.Error("Can't download ts file")
 				return err
 			}
 		} else {
-			for _, val := range list {
-				err = DownloadTSFile(val.Url, filepath.Join(current.Path, val.Name))
-				if err != nil {
-					logger.Error("Can't download ts file")
-					return err
-				}
-
-				if (val.Duration > 10) {
-					time.Sleep(time.Second * time.Duration((val.Duration - 10)))
-				}
-			}
+			logger.Debug("skip download")
 		}
 	}
 

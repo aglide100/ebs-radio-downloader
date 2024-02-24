@@ -92,7 +92,7 @@ func SubDirIsExist(path, subtitle string) (bool) {
         if strings.Contains(e.Name(), subtitle) {
             distance := word.EditDistance(e.Name(), subtitle)
 
-            if distance <= 5 {
+            if distance <= 3 {
                 found = true
                 break
             }
