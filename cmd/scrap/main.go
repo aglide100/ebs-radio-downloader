@@ -13,7 +13,7 @@ var (
 	// typo program titles
 	// ex) EASY ENGLISH(영어회화 레벨2),EASY ENGLISH(영어회화 레벨1),EASY ENGLISH(영어회화 레벨0)
 	wanted = flag.String("wanted", "*", "")
-	exclusive = flag.String("exclusive", "라디오 켐페인", "")
+	exclusive = flag.String("exclusive", "라디오 캠페인", "")
 )
 
 func main() {

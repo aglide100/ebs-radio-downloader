@@ -1,8 +1,12 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
-github.com/dmulholland/mp3lib v0.0.0-20190407131416-50ad4bfbe332 h1:zh+x3xrRRobJ+O6Jy+u+8+TSj7qzuW4EL8Hkf5cbAck=
-github.com/dmulholland/mp3lib v0.0.0-20190407131416-50ad4bfbe332/go.mod h1:U3TgSK0lA/gbTgENpBTSNn/OmowG1hr07mKQqqvbLxE=
-github.com/hyacinthus/mp3join v0.0.0-20190710105654-d46eaeeb9552 h1:cjR5hraUrLrNBQ6lXsjd/VDtJf7+3TOow++DaTAj8r8=
-github.com/hyacinthus/mp3join v0.0.0-20190710105654-d46eaeeb9552/go.mod h1:eQzsT6lJmJ/wcTqoHaHfuadmI1lzaHjrdDLO4qKiqcI=
+github.com/eaburns/bit v0.0.0-20131029213740-7bd5cd37375d h1:HB5J9+f1xpkYLgWQ/RqEcbp3SEufyOIMYLoyKNKiG7E=
+github.com/eaburns/bit v0.0.0-20131029213740-7bd5cd37375d/go.mod h1:CHkHWWZ4kbGY6jEy1+qlitDaCtRgNvCOQdakj/1Yl/Q=
+github.com/eaburns/flac v0.0.0-20171003200620-9a6fb92396d1 h1:wl/ggSfTHqAy46hyzw1IlrUYwjqmXYvbJyPdH3rT7YE=
+github.com/eaburns/flac v0.0.0-20171003200620-9a6fb92396d1/go.mod h1:frG94byMNy+1CgGrQ25dZ+17tf98EN+OYBQL4Zh612M=
+github.com/go-fingerprint/fingerprint v0.0.0-20140803133125-29397256b7ff h1:MVMRAz9+9uI8+nzBPHILUVLNzH+jaKKmGmEf5GrgNsM=
+github.com/go-fingerprint/fingerprint v0.0.0-20140803133125-29397256b7ff/go.mod h1:p+iFTUBRUOKBOZtWQCQAZHhLI7fC5bMdiDc5B4PPBU0=
+github.com/go-fingerprint/gochroma v0.0.0-20211004000611-a294aa5ccab6 h1:ofe4/jf63isEPwFgoy81WKWzuA3gfegrthdJXgdXKJI=
+github.com/go-fingerprint/gochroma v0.0.0-20211004000611-a294aa5ccab6/go.mod h1:zsgLdL2ov2nW56GWAEjcSp75I6ZIZjxnToJGZ/ouYwQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKsk=
 github.com/tidwall/gjson v1.17.1 h1:wlYEnwqAHgzmhNUFfw7Xalt2JzQvsMx2Se4PcoFCT/U=

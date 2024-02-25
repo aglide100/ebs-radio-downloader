@@ -97,7 +97,7 @@ func Run(wanted, exclusive []string) error {
 							return
 						}
 		
-						err = cli.RunConvertTsToMP3(filepath.Join(path, filename),  filepath.Join(path, target.SubTitle+".mp3" ))
+						err = cli.RunConvertTsToMP3(filepath.Join(path, filename),  filepath.Join(path, target.SubTitle+".mp3" ), target)
 						if err != nil {
 							logger.Error(err.Error())
 							return

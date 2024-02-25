@@ -20,11 +20,24 @@ func GetCurrentProgram() (*model.Program, error) {
 
 	title := dir.PreProcessing(strings.ReplaceAll(gjson.Get(currentJSON, "nowProgram.title").String(), "/", ""))
 	subTitle := dir.PreProcessing(strings.ReplaceAll(gjson.Get(currentJSON, "nowProgram.subTitle").String(), "/", ""))
+	title = strings.TrimRight(title, ".")
+	subTitle = strings.TrimRight(subTitle, ".")
+	title = strings.TrimRight(title, " ")
+	subTitle = strings.TrimRight(subTitle, " ")
 
 	startAt := strings.ReplaceAll(gjson.Get(currentJSON, "nowProgram.start").String(), "24:", "00:")
 	endAt := strings.ReplaceAll(gjson.Get(currentJSON, "nowProgram.end").String(), "24:", "00:")
 	startAt = strings.ReplaceAll(startAt, "25:", "01:")
 	endAt = strings.ReplaceAll(endAt, "25:", "01:")
+
+	startAt = strings.ReplaceAll(startAt, "26:", "02:")
+	endAt = strings.ReplaceAll(endAt, "26:", "02:")
+
+	startAt = strings.ReplaceAll(startAt, "27:", "03:")
+	endAt = strings.ReplaceAll(endAt, "27:", "03:")
+
+	startAt = strings.ReplaceAll(startAt, "28:", "03:")
+	endAt = strings.ReplaceAll(endAt, "28:", "03:")
 
 	path, err := dir.CreateProgramDir(title, "outputs")
 	if err != nil  {
