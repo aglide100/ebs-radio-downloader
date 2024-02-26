@@ -77,13 +77,14 @@ func SortDateDir(path string) ([]fs.DirEntry, error) {
     return entries, nil 
 }
 
-func SubDirIsExist(path, subtitle string) (bool) {
-    logger.Info("path", zap.Any("path", path))
+func IsDownloaded(path, subtitle string) (bool) {
+    // logger.Info("path", zap.Any("path", path))
 
     found := false
 
     entries, err := os.ReadDir(path)
     if err != nil {
+        logger.Info("", zap.Any("path", path), zap.Any("subtitle", subtitle))
         logger.Error(err.Error())
         return false
     }
@@ -93,7 +94,28 @@ func SubDirIsExist(path, subtitle string) (bool) {
             distance := word.EditDistance(e.Name(), subtitle)
 
             if distance <= 3 {
-                found = true
+                subdir := filepath.Join(path, e.Name())
+                
+                err := filepath.WalkDir(subdir, func(subpath string, d fs.DirEntry, err error) error {
+                    if err != nil {
+                        logger.Error(err.Error())
+                        return err
+                    }
+
+                    if strings.HasSuffix(strings.ToLower(d.Name()), ".mp3") {
+                        found = true
+                        logger.Info("found", zap.Any("filename", d.Name()))
+                        return filepath.SkipDir
+                    }
+
+                    return nil
+                })
+
+                if err != nil {
+                    logger.Error(err.Error())
+                    break
+                }
+
                 break
             }
         }

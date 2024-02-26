@@ -8,4 +8,6 @@ type Program struct {
 	StartAt time.Time
 	EndAt time.Time
 	Path string
+	Summary string
+	ImgPath string
 }

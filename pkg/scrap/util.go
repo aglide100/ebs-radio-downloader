@@ -56,6 +56,7 @@ func CreateHttpReq(url string) ([]byte, error) {
 	return data, nil
 }
 
+
 func HandleHttpStatusErr(res *http.Response) (error) {
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
