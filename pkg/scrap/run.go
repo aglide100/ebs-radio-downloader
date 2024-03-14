@@ -76,7 +76,7 @@ func Run(wanted, exclusive []string) error {
 				return err
 			}
 
-			if dir.IsDownloaded(currentProgram.Path, currentProgram.SubTitle) {
+			if !Contains(exclusive, currentProgram.Title) && dir.IsDownloaded(currentProgram.Path, currentProgram.SubTitle) {
 				prevProgram = currentProgram
 				logger.Info("already exist", zap.Any("title", currentProgram.Title), zap.Any("subTitle", currentProgram.SubTitle))
 				isExist = true
@@ -86,7 +86,7 @@ func Run(wanted, exclusive []string) error {
 
 			if prevProgram.Title != currentProgram.Title || prevProgram.SubTitle != currentProgram.SubTitle {
 				isChange = true
-				if dir.IsDownloaded(prevProgram.Path, prevProgram.SubTitle) {
+				if !Contains(exclusive, prevProgram.Title) && dir.IsDownloaded(prevProgram.Path, prevProgram.SubTitle) {
 					logger.Info("already exist", zap.Any("prevProgram title", prevProgram.Title), zap.Any("prevProgram subtitle", prevProgram.SubTitle))
 					prevProgram = currentProgram 
 					continue
@@ -101,7 +101,7 @@ func Run(wanted, exclusive []string) error {
 							return
 						}
 		
-						err = cli.RunConvertTsToMP3(filepath.Join(subDirPath, filename),  filepath.Join(subDirPath, target.SubTitle+".mp3" ), target)
+						err = cli.RunConvertTsToMP3(filepath.Join(subDirPath, filename), filepath.Join(subDirPath, target.SubTitle+".mp3"), target)
 						if err != nil {
 							logger.Error(err.Error())
 							return
@@ -115,7 +115,7 @@ func Run(wanted, exclusive []string) error {
 			if currentProgram.Title == "" {
 				now := time.Now()
 				currentProgram.EndAt = time.Date(now.Year(), now.Month(), now.Day(), 4, 55, 0, 0, now.Location())
-				currentProgram.Title = " "
+				// currentProgram.Title = " "
 				logger.Info("current broadcast is done, until wait ", zap.Any("time", now))
 			}	
 		}

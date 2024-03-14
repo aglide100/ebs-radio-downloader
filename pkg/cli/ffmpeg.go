@@ -61,7 +61,7 @@ func AddMetadata(absOutputPath string, target *model.Program) error {
     albumMetadata := "album=\"" + target.Title + "\""
 
     dirPath := filepath.Dir(absOutputPath)
-    logger.Info(dirPath)
+    // logger.Info(dirPath)
     cmd := exec.Command("ffmpeg", "-i", absOutputPath, "-i", target.ImgPath, "-map", "0:0", "-map", "1:0", "-c", "copy", "-id3v2_version", "3", "-metadata", titleMetadata, "-metadata", artistMetadata, "-metadata", albumMetadata, dirPath +"/out.mp3")
     
     var stdout, stderr bytes.Buffer

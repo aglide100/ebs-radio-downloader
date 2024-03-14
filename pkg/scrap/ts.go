@@ -70,7 +70,7 @@ func downloadTSFile(url, fileName string) error {
 		return err
 	}
 
-	fmt.Println("downloading...", fileName)
+	// fmt.Println("downloading...", fileName)
 	return nil
 }
 

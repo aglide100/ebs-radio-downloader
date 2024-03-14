@@ -93,7 +93,7 @@ func IsDownloaded(path, subtitle string) (bool) {
         if strings.Contains(e.Name(), subtitle) {
             distance := word.EditDistance(e.Name(), subtitle)
 
-            if distance <= 3 {
+            if distance <= 5 {
                 subdir := filepath.Join(path, e.Name())
                 
                 err := filepath.WalkDir(subdir, func(subpath string, d fs.DirEntry, err error) error {
@@ -102,7 +102,7 @@ func IsDownloaded(path, subtitle string) (bool) {
                         return err
                     }
 
-                    if strings.HasSuffix(strings.ToLower(d.Name()), ".mp3") {
+                    if strings.Contains(d.Name(), ".mp3") {
                         found = true
                         logger.Info("found", zap.Any("filename", d.Name()))
                         return filepath.SkipDir

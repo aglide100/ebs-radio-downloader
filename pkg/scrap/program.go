@@ -76,7 +76,12 @@ func DownloadThumb(current *model.Program) (*model.Program, error) {
 }
 
 func cleanStr(str string) string {
-	return strings.TrimRight(strings.ReplaceAll(str, "/", ""), ". ")
+	if (len(str) != 0 && str[len(str)-1] == ' ') {
+		return cleanStr(strings.TrimRight(str, " "))
+
+	} else {
+		return strings.TrimRight(strings.ReplaceAll(str, "/", ""), ". ")
+	}
 }
 
 func normalizeTime(startAt, endAt string) (time.Time, time.Time, error) {

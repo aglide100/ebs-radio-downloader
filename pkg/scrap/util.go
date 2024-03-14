@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/aglide100/ebs-radio-downloader/pkg/logger"
@@ -73,6 +74,11 @@ func Contains(s []string, substr string) bool {
 		if v == substr {
             return true
         }
+
+		if strings.Contains(v, substr) {
+			// logger.Info("Skip", zap.Any("v", v), zap.Any("substr", substr))
+			return true
+		}
 
         if distance <= distanceThreshold {
 			logger.Info("should be this one,", zap.Any("s1", v), zap.Any("s2", substr))
