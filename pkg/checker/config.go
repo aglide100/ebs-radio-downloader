@@ -2,6 +2,7 @@ package checker
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -20,7 +21,8 @@ func WriteConfigure(broadcast *BroadCast, path string) error {
 	if err != nil {
 		return err
 	}
-
+	
+	log.Println(resultPath)
 	return nil
 }
 

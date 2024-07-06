@@ -95,13 +95,13 @@ func Run(wanted, exclusive []string) error {
 				if prevProgram.Title != "" && !Contains(exclusive, prevProgram.Title) {
 					go func(target *model.Program) {
 						// logger.Info("prevProgram", zap.Any("target", target))
-						subDirPath, filename, err := CombinedTS(target.Path, target.SubTitle)
+						subDirPath, combinedTs, err := CombinedTS(target.Path, target.SubTitle)
 						if err != nil {
 							logger.Error(err.Error())
 							return
 						}
 
-						err = cli.RunConvertTsToMP3(filepath.Join(subDirPath, filename), filepath.Join(subDirPath, target.SubTitle+".mp3"), target)
+						err = cli.RunConvertTsToMP3(filepath.Join(subDirPath, combinedTs), filepath.Join(subDirPath, dir.PreProcessing(target.SubTitle), ".mp3"), target)
 						if err != nil {
 							logger.Error(err.Error())
 							return

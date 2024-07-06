@@ -90,7 +90,7 @@ func IsDownloaded(path, subtitle string) (bool) {
     }
 
     for _, e := range entries {
-        if strings.Contains(e.Name(), subtitle) {
+        if strings.Contains(PreProcessing(e.Name()), PreProcessing(subtitle)) {
             distance := word.EditDistance(e.Name(), subtitle)
 
             if distance <= 5 {
